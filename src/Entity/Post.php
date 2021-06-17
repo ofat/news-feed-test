@@ -35,11 +35,6 @@ class Post implements TranslatableInterface
     private $status;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $author_id;
-
-    /**
      * @Gedmo\Timestampable(on="change", field="status", value=Post::STATUS_PUBLISHED)
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -66,6 +61,12 @@ class Post implements TranslatableInterface
      * @ORM\Column(type="string", length=255)
      */
     private $image;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     public function __construct()
     {
@@ -94,18 +95,6 @@ class Post implements TranslatableInterface
         return $this;
     }
 
-    public function getAuthorId(): ?int
-    {
-        return $this->author_id;
-    }
-
-    public function setAuthorId(int $author_id): self
-    {
-        $this->author_id = $author_id;
-
-        return $this;
-    }
-
     public function getPublishedAt(): ?\DateTimeInterface
     {
         return $this->published_at;
@@ -123,23 +112,9 @@ class Post implements TranslatableInterface
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
     }
 
     /**
@@ -154,7 +129,7 @@ class Post implements TranslatableInterface
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
-            $comment->setPostId($this);
+            $comment->setPost($this);
         }
 
         return $this;
@@ -164,8 +139,8 @@ class Post implements TranslatableInterface
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getPostId() === $this) {
-                $comment->setPostId(null);
+            if ($comment->getPost() === $this) {
+                $comment->setPost(null);
             }
         }
 
@@ -180,6 +155,18 @@ class Post implements TranslatableInterface
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
