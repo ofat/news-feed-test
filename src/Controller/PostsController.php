@@ -7,6 +7,8 @@ use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+
 
 class PostsController extends AbstractController
 {
@@ -19,7 +21,7 @@ class PostsController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale}", name="home")
+     * @Route("/{_locale}", name="posts")
      */
     public function index(PostRepository $postRepository): Response
     {
@@ -30,6 +32,7 @@ class PostsController extends AbstractController
 
     /**
      * @Route("/{_locale}/posts/{slug}", name="post")
+     * @Entity("post", expr="repository.findByLocaleSlug(_locale, slug)")
      */
     public function show(Post $post)
     {

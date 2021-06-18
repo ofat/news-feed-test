@@ -10,6 +10,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Twig\Extension\AssetExtension;
 
 /**
  * @ORM\Table(name="posts")
@@ -147,5 +148,10 @@ class Post implements TranslatableInterface
         $this->author = $author;
 
         return $this;
+    }
+
+    public function getImagePath(): string
+    {
+        return sprintf('/images/posts/%s/%s', $this->id, $this->image);
     }
 }
