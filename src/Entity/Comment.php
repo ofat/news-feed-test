@@ -6,11 +6,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use App\Repository\CommentRepository;
 
 /**
- * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="comments")
- * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
+ * @ORM\Entity(repositoryClass=CommentRepository::class)
  */
 class Comment
 {
@@ -28,29 +28,10 @@ class Comment
     private $post;
 
     /**
-     * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity=Comment::class, inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $parent;
-
-    /**
-     * @Gedmo\TreeLeft
-     * @ORM\Column(name="lft", type="integer")
-     */
-    private $lft;
-
-    /**
-     * @Gedmo\TreeLevel
-     * @ORM\Column(name="lvl", type="integer")
-     */
-    private $lvl;
-
-    /**
-     * @Gedmo\TreeRight
-     * @ORM\Column(name="rgt", type="integer")
-     */
-    private $rgt;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="reply_to")
