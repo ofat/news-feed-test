@@ -23,3 +23,15 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    translate_url.post_entity:
+        class: App\Service\TranslateUrl\Strategies\PostUrlTranslation
+        tags:
+            - { name: translate_url.strategy }
+    translate_url.basic_route:
+        class: App\Service\TranslateUrl\Strategies\BasicRouteUrlTranslation
+        tags:
+            - { name: translate_url.strategy }
+
+    translate_url.context:
+        class: App\Service\TranslateUrl\Context
+        public: true

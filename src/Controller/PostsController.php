@@ -31,7 +31,7 @@ class PostsController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale}/posts/{slug}", name="post")
+     * @Route({"en": "/{_locale}/posts/{slug}", "fr": "/{_locale}/des-postes/{slug}"}, name="post")
      * @Entity("post", expr="repository.findByLocaleSlug(_locale, slug)")
      */
     public function show(Post $post)
