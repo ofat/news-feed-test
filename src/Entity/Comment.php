@@ -12,7 +12,7 @@ use App\Repository\CommentRepository;
  * @ORM\Table(name="comments")
  * @ORM\Entity(repositoryClass=CommentRepository::class)
  */
-class Comment
+class Comment implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -153,5 +153,14 @@ class Comment
         $this->created_at = $created_at;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'author' => $this->getAuthor(),
+            'created_at' => $this->getCreatedAt()->format('H:i d.m.Y'),
+            'message' => $this->getMessage()
+        ];
     }
 }
