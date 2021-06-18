@@ -6,6 +6,7 @@ use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -16,7 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Post implements TranslatableInterface
 {
-
+    use TimestampableEntity;
     use TranslatableTrait;
 
     const STATUS_HIDDEN = 0;
@@ -35,22 +36,9 @@ class Post implements TranslatableInterface
     private $status;
 
     /**
-     * @Gedmo\Timestampable(on="change", field="status", value=Post::STATUS_PUBLISHED)
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $published_at;
-
-    /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
-    private $created_at;
-
-    /**
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
-     */
-    private $updated_at;
+    private $publishedAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post_id", orphanRemoval=true)
@@ -97,24 +85,14 @@ class Post implements TranslatableInterface
 
     public function getPublishedAt(): ?\DateTimeInterface
     {
-        return $this->published_at;
+        return $this->publishedAt;
     }
 
-    public function setPublishedAt(\DateTimeInterface $published_at): self
+    public function setPublishedAt(\DateTimeInterface $publishedAt): self
     {
-        $this->published_at = $published_at;
+        $this->publishedAt = $publishedAt;
 
         return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->created_at;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updated_at;
     }
 
     /**
