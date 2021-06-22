@@ -28,6 +28,13 @@ class AppFixtures extends Fixture
         $admin->setRoles(['ROLE_ADMIN']);
         $manager->persist($admin);
 
+        $admin2 = new User();
+        $admin2->setEmail('admin2@test.com');
+        $admin2->setName('John');
+        $admin2->setPassword($this->passwordHasher->getPasswordHasher(User::class)->hash('adminpass'));
+        $admin2->setRoles(['ROLE_ADMIN']);
+        $manager->persist($admin);
+
         $post1 = new Post();
         $post1->setPublishedAt(new \DateTime());
         $post1->setStatus(Post::STATUS_PUBLISHED);
@@ -61,6 +68,23 @@ class AppFixtures extends Fixture
 
         $manager->persist($post2);
         $post2->mergeNewTranslations();
+
+        $post3 = new Post();
+        $post3->setPublishedAt(new \DateTime());
+        $post3->setStatus(Post::STATUS_PUBLISHED);
+        $post3->setAuthor($admin2);
+        $post3->setImage('blue-water.jpeg');
+
+        $post3->translate('en')->setName('Blue water');
+        $post3->translate('en')->setDescription('Blue water description very interesting post');
+        $post3->translate('en')->setContent('<p>This is blue water! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis imperdiet leo, vitae vehicula purus. Proin quis libero ultricies, ornare est eget, maximus metus. Maecenas eleifend lacus lacinia felis pharetra auctor. Nam porttitor rhoncus dictum. Mauris mattis fermentum massa, et vestibulum magna suscipit vel. Duis gravida mauris vel eros fermentum, quis luctus turpis sodales. Curabitur molestie auctor enim quis gravida.</p><p>Vivamus molestie sollicitudin lacinia. Curabitur varius varius lacus ut eleifend. Integer semper turpis vitae sem auctor sagittis. Integer diam lectus, dignissim id nibh sit amet, pulvinar fermentum ante. Sed lacinia rutrum felis, vitae gravida eros lacinia quis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus sed facilisis felis.</p>');
+
+        $post3->translate('fr')->setName('l\'eau bleue');
+        $post3->translate('fr')->setDescription('l\'eau bleue brève description article très intéressant');
+        $post3->translate('fr')->setContent('<p>C\'est l\'arbre vert! Praesent non nisi enim. Ut eros nulla, aliquam vitae felis eu, vestibulum ultrices ante. Nulla interdum mi non erat congue, ut maximus odio commodo. Sed aliquam nisl a ligula euismod varius. Vestibulum vitae magna sed arcu consectetur tempor eget ac est.</p><p>Pellentesque ultricies molestie tincidunt. Nulla facilisi. Nam augue lacus, blandit non laoreet ac, suscipit eget lacus. Suspendisse consequat leo purus, maximus ullamcorper metus pretium et. Maecenas ornare est a sodales elementum. Nunc interdum egestas justo, id auctor quam sollicitudin in.</p>');
+
+        $manager->persist($post3);
+        $post3->mergeNewTranslations();
 
         $comment = new Comment();
         $comment->setAuthor('Jack McGreen');
