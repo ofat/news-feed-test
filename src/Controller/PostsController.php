@@ -17,11 +17,11 @@ class PostsController extends AbstractController
      */
     public function indexNoLocale(): Response
     {
-        return $this->redirectToRoute('home', ['_locale' => 'en']);
+        return $this->redirectToRoute('posts', ['_locale' => 'en']);
     }
 
     /**
-     * @Route("/{_locale}", name="posts")
+     * @Route("/{_locale<en|fr>}", name="posts")
      */
     public function index(PostRepository $postRepository): Response
     {
@@ -31,7 +31,7 @@ class PostsController extends AbstractController
     }
 
     /**
-     * @Route({"en": "/{_locale}/posts/{slug}", "fr": "/{_locale}/des-postes/{slug}"}, name="post")
+     * @Route({"en": "/{_locale<en|fr>}/posts/{slug}", "fr": "/{_locale}/des-postes/{slug}"}, name="post")
      * @Entity("post", expr="repository.findByLocaleSlug(_locale, slug)")
      */
     public function show(Post $post)

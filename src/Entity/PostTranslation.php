@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="post_translations")
@@ -24,6 +25,7 @@ class PostTranslation implements TranslationInterface
     private $id;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -35,11 +37,13 @@ class PostTranslation implements TranslationInterface
     private $slug;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=512)
      */
     private $description;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="text")
      */
     private $content;

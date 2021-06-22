@@ -1,0 +1,17 @@
+{% extends 'layout/admin.html.twig' %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+<main class="max-w-4xl m-auto my-3">
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+        {{ form_row(form.status) }}
+        {% if(post.getImage()) %}
+        <img src="{{ asset(post.getImagePath()) }}" class="img-fluid" style="height:100px">
+        {% endif %}
+        {{ form_row(form.imageFile) }}
+
+    {{ form_end(form) }}
+</main>
+{% endblock %}

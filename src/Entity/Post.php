@@ -11,6 +11,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="posts")
@@ -32,11 +33,13 @@ class Post implements TranslatableInterface
     private $id;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="smallint")
      */
     private $status;
 
     /**
+     * @Assert\Type("\DateTimeInterface")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $publishedAt;
@@ -60,6 +63,7 @@ class Post implements TranslatableInterface
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->publishedAt = new \DateTime();
     }
 
     public function __constructor()
@@ -153,5 +157,10 @@ class Post implements TranslatableInterface
     public function getImagePath(): string
     {
         return sprintf('/images/posts/%s/%s', $this->id, $this->image);
+    }
+
+    public function getIsPublished(): bool
+    {
+        return $this->status == static::STATUS_PUBLISHED;
     }
 }
