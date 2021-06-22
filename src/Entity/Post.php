@@ -156,7 +156,7 @@ class Post implements TranslatableInterface
 
     public function getImagePath(): string
     {
-        return sprintf('/images/posts/%s/%s', $this->id, $this->image);
+        return sprintf('/images/posts/%s', $this->image);
     }
 
     public function getIsPublished(): bool
