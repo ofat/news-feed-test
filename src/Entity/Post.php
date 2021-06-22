@@ -55,8 +55,8 @@ class Post implements TranslatableInterface
     private $image;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts", cascade={"persist"})
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $author;
 
